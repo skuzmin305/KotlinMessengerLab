@@ -1,4 +1,4 @@
-package learn.library
+package learn.library.enums
 
 enum class BookGenre {
     FICTION,

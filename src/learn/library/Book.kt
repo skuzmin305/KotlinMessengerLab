@@ -1,5 +1,7 @@
 package learn.library
 
+import learn.library.enums.BookGenre
+
 data class Book(
     val id : String,
     val title : String,

@@ -2,7 +2,7 @@ package learn.library.utils
 import java.time.Year
 
 import learn.library.Book
-import learn.library.BookGenre
+import learn.library.enums.BookGenre
 
 class BookUtils {
     fun createDefaultBook() : Book {
