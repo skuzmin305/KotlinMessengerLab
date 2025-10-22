@@ -1,13 +1,16 @@
 package data.repositories
 
 import domain.entities.Message
+import patterns.observer.EventType
+import patterns.observer.Observable
 
-class MessageRepository(
+class MessageRepository (
     private val messages: MutableList<Message>
-) {
+) : Observable() {
 
     fun addMessage(message: Message) {
         messages.add(message)
+        notifyObservers(EventType.MESSAGE_RECEIVED, message)
     }
 
     fun getAllMessages(): List<Message> {

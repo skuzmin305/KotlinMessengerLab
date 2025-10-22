@@ -2,8 +2,10 @@ package data.managers
 
 import domain.entities.User
 import domain.enums.UserStatus
+import patterns.observer.EventType
+import patterns.observer.Observable
 
-class UserManager private constructor() {
+class UserManager private constructor() : Observable() {
     val users: MutableMap<String, User> = mutableMapOf()
 
     companion object {
@@ -12,6 +14,7 @@ class UserManager private constructor() {
 
     fun addUser(user: User) {
         users[user.id] = user
+        notifyObservers(EventType.USER_CREATED, user)
     }
 
     fun getUser(userId: String): User? {
@@ -19,7 +22,8 @@ class UserManager private constructor() {
     }
 
     fun updateUserStatus(userId: String, status: UserStatus) {
-        val user : User = users[userId] ?: return
-            users[userId] = user.copy(status = status)
+        val user = users[userId] ?: return
+        users[userId] = user.copy(status = status)
+        notifyObservers(EventType.USER_STATUS_CHANGED, user)
     }
 }

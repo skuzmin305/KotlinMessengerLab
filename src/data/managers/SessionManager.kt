@@ -2,9 +2,11 @@ package data.managers
 
 import domain.entities.ChatSession
 import domain.entities.User
+import patterns.observer.EventType
+import patterns.observer.Observable
 import utils.generators.IdGenerator
 
-class SessionManager private constructor() {
+class SessionManager private constructor() : Observable() {
     val sessions: MutableMap<String, ChatSession> = mutableMapOf()
 
     companion object {
@@ -24,6 +26,7 @@ class SessionManager private constructor() {
         )
 
         sessions[sessionId] = chatSession
+        notifyObservers(EventType.SESSION_CREATED, chatSession)
     }
 
     fun getSession(sessionId: String) : ChatSession? {
@@ -33,5 +36,6 @@ class SessionManager private constructor() {
     fun closeSession(sessionId : String) {
         val session = sessions[sessionId] ?: return
         sessions[sessionId] = session.copy(isActive = false)
+        notifyObservers(EventType.SESSION_CLOSED, session)
     }
 }
